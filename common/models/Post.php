@@ -32,6 +32,8 @@ use yii\db\Expression;
  */
 class Post extends \yii\db\ActiveRecord
 {
+	public $imageFile;
+
     /**
      * @inheritdoc
      */
@@ -81,6 +83,7 @@ class Post extends \yii\db\ActiveRecord
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
+	        [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -104,6 +107,20 @@ class Post extends \yii\db\ActiveRecord
             'category_id' => 'Category ID',
         ];
     }
+
+	public function upload()
+	{
+		if ($this->validate()) {
+			$filePath = 'uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+			$this->imageFile->saveAs($filePath);
+			$this->imageFile = null;
+			$this->lead_photo = $filePath;
+
+			return true;
+		} else {
+			return false;
+		}
+	}
 
     /**
      * @return \yii\db\ActiveQuery

@@ -8,6 +8,7 @@ use common\models\PostSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -62,18 +63,27 @@ class PostController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new Post();
+	public function actionCreate()
+	{
+		$model = new Post();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+		if ($model->load(Yii::$app->request->post())) {
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
+			$model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+			if ($model->imageFile) {
+				$model->upload();
+			}
+
+			if($model->save()) {
+				return $this->redirect(['view', 'id' => $model->id]);
+			}
+		} else {
+			return $this->render('create', [
+				'model' => $model,
+			]);
+		}
+	}
 
     /**
      * Updates an existing Post model.
@@ -82,18 +92,27 @@ class PostController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+	public function actionUpdate($id)
+	{
+		$model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+		if ($model->load(Yii::$app->request->post())) {
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
+			$model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+			if ($model->imageFile) {
+				$model->upload();
+			}
+
+			if($model->save()) {
+				return $this->redirect(['view', 'id' => $model->id]);
+			}
+		} else {
+			return $this->render('update', [
+				'model' => $model,
+			]);
+		}
+	}
 
     /**
      * Deletes an existing Post model.

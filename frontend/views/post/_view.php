@@ -46,7 +46,7 @@ use yii\helpers\Url;
 
 	<?php if($model->lead_photo) { ?>
         <a href="<?= Url::to(['/post/view', 'id' => $model->id]) ?>">
-			<?= Html::img(Url::to(['/']) . $model->lead_photo,
+			<?= Html::img(Url::base() . '/'.  $model->lead_photo,
 				['class' => 'img-responsive center-block']
 			) ?>
         </a>

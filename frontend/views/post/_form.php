@@ -12,11 +12,11 @@ use common\models\Category;
 
 <div class="post-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+	<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'lead_photo')->textInput(['maxlength' => true]) ?>
+	<?= $form->field($model, 'imageFile')->fileInput() ?>
 
     <?= $form->field($model, 'lead_text')->textarea(['rows' => 6]) ?>
 
