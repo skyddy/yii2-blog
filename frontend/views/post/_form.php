@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Category;
+use vova07\imperavi\Widget;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
@@ -18,9 +20,33 @@ use common\models\Category;
 
 	<?= $form->field($model, 'imageFile')->fileInput() ?>
 
-    <?= $form->field($model, 'lead_text')->textarea(['rows' => 6]) ?>
+	<?= $form->field($model, 'lead_text')->widget(Widget::className(), [
+		'settings' => [
+			'lang' => 'en',
+			'minHeight' => 150,
+			'plugins' => [
+				'fullscreen',
+				'table',
+				'video',
+				'fontsize',
+				'fontfamily'
+			]
+		]
+	]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+	<?= $form->field($model, 'content')->widget(Widget::className(), [
+		'settings' => [
+			'lang' => 'en',
+			'minHeight' => 250,
+			'plugins' => [
+				'fullscreen',
+				'table',
+				'video',
+				'fontsize',
+				'fontfamily'
+			]
+		]
+	]) ?>
 
     <?= $form->field($model, 'meta_description')->textInput(['maxlength' => true]) ?>
 
