@@ -14,9 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+	<?php if(Yii::$app->user->can('updatePost')) { ?>
     <p>
         <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php } ?>
 
     <?= $this->render('_search', ['model' => $searchModel]) ?>
 
